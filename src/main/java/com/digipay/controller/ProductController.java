@@ -4,7 +4,7 @@ import com.digipay.employee.Permission;
 import com.digipay.employee.UserController;
 import com.digipay.employee.UserControllerImplService;
 import com.digipay.model.dto.CategoryDto;
-import com.digipay.model.dto.ProductAddRequest;
+import com.digipay.model.dto.ProductRequest;
 import com.digipay.model.dto.ProductDto;
 import com.digipay.model.entity.Category;
 import com.digipay.model.entity.Product;
@@ -48,21 +48,23 @@ public class ProductController {
 
 
     @PostMapping
-    public void addProduct(@RequestBody ProductAddRequest productAddRequest) throws Exception {
-        employeeAccessCheck(productAddRequest.getEmployeeNationalId(), "add");
-        productService.addProduct(productAddRequest.getName(), productAddRequest.getCategories(),
-                productAddRequest.getEmployeeNationalId());
+    public void addProduct(@RequestBody ProductRequest productRequest) throws Exception {
+        employeeAccessCheck(productRequest.getEmployeeNationalId(), "add");
+        productService.addProduct(productRequest.getName(), productRequest.getProductCount(), productRequest.getCategories(),
+                productRequest.getEmployeeNationalId(), productRequest.getPrice());
     }
 
     @DeleteMapping("{productId}")
-    public void removeProduct(@PathVariable String productId, @RequestBody ProductAddRequest productAddRequest) throws Exception {
-        employeeAccessCheck(productAddRequest.getEmployeeNationalId(), "remove");
-        productService.removeProduct(productId, productAddRequest.getEmployeeNationalId());
+    public void removeProduct(@PathVariable String productId, @RequestBody ProductRequest productRequest)
+            throws Exception {
+        employeeAccessCheck(productRequest.getEmployeeNationalId(), "remove");
+        productService.removeProduct(productId, productRequest.getEmployeeNationalId());
     }
 
     @PatchMapping(value = "{productId}")
-    public void updateProduct(@PathVariable String productId, @RequestBody ProductAddRequest productAddRequest) {
-        productService.updateProduct(productId, productAddRequest.getName(), productAddRequest.getCategories());
+    public void updateProduct(@PathVariable String productId, @RequestBody ProductRequest productRequest) {
+        productService.updateProduct(productId, productRequest.getName(), productRequest.getCategories(),
+                productRequest.getPrice());
     }
 
     @GetMapping("{productId}")
@@ -73,6 +75,8 @@ public class ProductController {
         mapProductToProductDto.setProductId(product.getProductId());
         mapProductToProductDto.setProductName(product.getProductName());
         mapProductToProductDto.setEmployeeNationalId(product.getEmployeeNationalId());
+        mapProductToProductDto.setProductPrice(product.getProductPrice());
+        mapProductToProductDto.setProductCount(product.getProductCount());
 
         Set<Category> categories = product.getCategories();
         Set<CategoryDto> categoryDtoSet = new HashSet<>();
@@ -98,6 +102,8 @@ public class ProductController {
             mapping.setProductId(product.getProductId());
             mapping.setProductName(product.getProductName());
             mapping.setEmployeeNationalId(product.getEmployeeNationalId());
+            mapping.setProductPrice(product.getProductPrice());
+            mapping.setProductCount(product.getProductCount());
 
             Set<Category> categories = product.getCategories();
             Set<CategoryDto> categoryDtoSet = new HashSet<>();
@@ -113,5 +119,4 @@ public class ProductController {
         }
         return productDto;
     }
-
 }

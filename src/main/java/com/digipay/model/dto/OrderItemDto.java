@@ -7,8 +7,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class CategoryAddRequest {
+public class OrderItemDto {
 
-    private String parentCategory;
-    private String categoryName;
+    private ProductDto product;
+    private int quantity;
 }

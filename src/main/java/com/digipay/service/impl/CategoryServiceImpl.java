@@ -2,16 +2,17 @@ package com.digipay.service.impl;
 
 import com.digipay.model.entity.Category;
 import com.digipay.repository.CategoryRepository;
+import com.digipay.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
-public class CategoryServiceImplImpl implements com.digipay.service.CategoryServiceImpl {
+public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     @Autowired
-    public CategoryServiceImplImpl(CategoryRepository categoryRepository) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
     }
 

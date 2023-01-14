@@ -7,11 +7,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class CategoryDto {
+public class CustomerDto {
 
-    private String categoryId;
-
-    private String categoryName;
-
-    private boolean active;
+    private String customerId;
+    private String nationalCode;
 }

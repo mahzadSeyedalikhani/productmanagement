@@ -7,11 +7,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class CategoryDto {
+public class OrderItemRequest {
 
-    private String categoryId;
-
-    private String categoryName;
-
-    private boolean active;
+    private String product;
+    private int quantity;
 }

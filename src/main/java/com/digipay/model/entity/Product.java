@@ -4,10 +4,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import java.math.BigDecimal;
 import java.util.Set;
 
-@Setter
 @Getter
+@Setter
 @ToString
 @Entity
 @Table(name= "PRODUCT")
@@ -22,6 +23,9 @@ public class Product {
     @Column(name= "product_name")
     private String productName;
 
+    @Column(name = "product_count")
+    private int productCount;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "PRODUCT_CATEGORY", joinColumns ={@JoinColumn(name = "product_id")},
                    inverseJoinColumns = {@JoinColumn (name = "category_id")})
@@ -30,26 +34,33 @@ public class Product {
     @Column(name= "employee_creator")
     private String employeeNationalId;
 
+    @Column(name = "product_price")
+    private BigDecimal productPrice;
+
     @Column(name = "active_status")
     private boolean active= true;
 
     public Product() {
     }
 
-    public Product(String productName, Set<Category> categories, String employeeNationalId,
-                   String productId, boolean active){
+    public Product(String productName, int productCount, Set<Category> categories, String employeeNationalId,
+                   String productId, BigDecimal productPrice, boolean active){
         this.productName = productName;
+        this.productCount = productCount;
         this.categories = categories;
         this.employeeNationalId = employeeNationalId;
         this.productId = productId;
+        this.productPrice = productPrice;
         this.active = active;
     }
 
-    public Product(String productName, Set<Category> categories, String employeeNationalId,
-                   String productId){
+    public Product(String productName, int productCount, Set<Category> categories, String employeeNationalId,
+                   String productId,  BigDecimal productPrice){
         this.productName = productName;
+        this.productCount = productCount;
         this.categories = categories;
         this.employeeNationalId = employeeNationalId;
         this.productId = productId;
+        this.productPrice = productPrice;
     }
 }

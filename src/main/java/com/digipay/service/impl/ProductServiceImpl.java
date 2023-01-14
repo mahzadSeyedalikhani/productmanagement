@@ -6,8 +6,10 @@ import com.digipay.repository.CategoryRepository;
 import com.digipay.repository.ProductRepository;
 import com.digipay.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.parser.Part;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.math.BigDecimal;
 import java.rmi.AccessException;
 import java.util.List;
 import java.util.Set;
@@ -26,9 +28,21 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product addProduct(String name, Set<String> category, String employeeNationalId){
-        Set<Category> categories = categoryRepository.findByCategoryNameIn(category);
-        return productRepository.save(new Product(name,categories, employeeNationalId, UUID.randomUUID().toString()));
+    public Product addProduct(String name, int productCount, Set<String> category,
+                              String employeeNationalId, String price){
+
+        if(productRepository.existsProductByProductName(name)){
+            Product existingProduct = productRepository.findByProductName(name);
+            int currentQuantity = existingProduct.getProductCount();
+            int updatedQuantity = currentQuantity + productCount;
+            existingProduct.setProductCount(updatedQuantity);
+            return productRepository.save(existingProduct);
+        }else {
+            System.out.println("sorry");
+            Set<Category> categories = categoryRepository.findByCategoryNameIn(category);
+            BigDecimal productPrice = new BigDecimal(price);
+            return productRepository.save(new Product(name, productCount, categories, employeeNationalId, UUID.randomUUID().toString(), productPrice));
+        }
     }
 
     @Transactional
@@ -45,8 +59,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public void updateProduct(String productId, String name, Set<String> category) {
+    public void updateProduct(String productId, String name, Set<String> category, String price) {
         Product updatableProduct = productRepository.findByProductId(productId);
+        BigDecimal productPrice = new BigDecimal(price);
         if(name != null){
             updatableProduct.setProductName(name);
         }
@@ -54,14 +69,15 @@ public class ProductServiceImpl implements ProductService {
             Set<Category> categorySet = categoryRepository.findByCategoryNameIn(category);
             updatableProduct.setCategories(categorySet);
         }
+        if(price != null) {
+            updatableProduct.setProductPrice(productPrice);
+        }
         productRepository.save(updatableProduct);
     }
 
     @Override
     public Product getProduct(String productId) {
         return productRepository.findByProductId(productId);
-
-
 
     }
 
