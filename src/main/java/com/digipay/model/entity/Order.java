@@ -33,6 +33,9 @@ public class Order {
 
     private Date orderDate;
 
+    public Order() {
+    }
+
     public Order(List<OrderItem> orderItems, Customer customer, BigDecimal totalOrderAmount,
                  String orderId, Date orderDate){
         this.orderItems = orderItems;
@@ -40,9 +43,5 @@ public class Order {
         this.totalOrderAmount = totalOrderAmount;
         this.orderDate = orderDate;
         this.orderId = orderId;
-    }
-
-    public Order() {
-
     }
 }
