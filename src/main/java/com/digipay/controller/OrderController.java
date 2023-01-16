@@ -7,8 +7,6 @@ import com.digipay.model.dto.OrderItemRequest;
 import com.digipay.model.dto.OrderRequest;
 import com.digipay.model.dto.ProductDto;
 import com.digipay.service.OrderService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +19,7 @@ import java.util.List;
 @RequestMapping("/orders")
 public class OrderController {
 
-    Logger logger = LoggerFactory.getLogger(OrderController.class);
+
     private final OrderService orderService;
 
     @Autowired
@@ -39,20 +37,16 @@ public class OrderController {
     public void registerOrder(@RequestBody OrderRequest orderRequest) {
         List<OrderItemDto> orderItemsList = new ArrayList<>();
         List<OrderItemRequest> orderItems = orderRequest.getOrderItems();
-        OrderItemDto orderItemDto = new OrderItemDto();
+
         for (OrderItemRequest orderItem : orderItems) {
+            OrderItemDto orderItemDto = new OrderItemDto();
             String product = orderItem.getProduct();
             ProductDto mappedProduct = productMapper.stringToProductDto(product);
-            if(mappedProduct.getProductCount()>=orderItem.getQuantity()){
-                orderItemDto.setProduct(mappedProduct);
-                orderItemDto.setQuantity(orderItem.getQuantity());
-                orderItemsList.add(orderItemDto);
-            }
-            else
-                logger.info("Sorry, the inventory of {} is not enough", mappedProduct);
-
+            orderItemDto.setProduct(mappedProduct);
+            orderItemDto.setQuantity(orderItem.getQuantity());
+            orderItemsList.add(orderItemDto);
         }
         orderService.registerOrder(mapper.orderItemDtoToOrderItem(orderItemsList),
                 orderRequest.getCustomerNationalCode());
-        }
+    }
 }
