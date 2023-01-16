@@ -56,6 +56,13 @@ public class OrderServiceImpl implements OrderService {
                 ultimateOrderItemList.add(ultimateOrderItem);
                 BigDecimal productPrice = product.getProductPrice();
                 productPriceList.add(productPrice.multiply(new BigDecimal(orderItem.getQuantity())));
+                int updatedProductCount = product.getProductCount() - ultimateOrderItem.getQuantity();
+                product.setProductCount(updatedProductCount);
+                productRepository.save(product);
+                if(updatedProductCount == 0){
+                    product.setActive(false);
+                    productRepository.save(product);
+                }
             }
             else
                 logger.info("Sorry, the inventory of this product {} is less than your required amount", product);

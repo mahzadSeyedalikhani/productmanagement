@@ -6,7 +6,6 @@ import com.digipay.repository.CategoryRepository;
 import com.digipay.repository.ProductRepository;
 import com.digipay.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.parser.Part;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
