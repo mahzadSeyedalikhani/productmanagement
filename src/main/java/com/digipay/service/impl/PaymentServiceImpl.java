@@ -21,9 +21,18 @@ public class PaymentServiceImpl implements PaymentService {
         this.paymentRepository = paymentRepository;
     }
     @Override
-    public Payment paymentOrder(String orderId) {
+    public Payment payOrder(String orderId) {
         Order order = orderRepository.findByOrderId(orderId);
         BigDecimal payableAmount = order.getTotalOrderAmount();
         return paymentRepository.save(new Payment(order, payableAmount, new Date(), UUID.randomUUID().toString()));
+    }
+
+    @Override
+    public Payment payPenalty(String orderId, BigDecimal payablePenalty) {
+        Order order = orderRepository.findByOrderId(orderId);
+        Payment payment = paymentRepository.findPaymentByOrder(order);
+        payment.setPayablePenalty(payablePenalty);
+        payment.setPenaltyPaymentDate(new Date());
+        return paymentRepository.save(payment);
     }
 }

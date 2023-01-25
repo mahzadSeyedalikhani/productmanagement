@@ -27,21 +27,36 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product addProduct(String name, int productCount, Set<String> category,
+    public Product addProduct(String name, int productQuantity, Set<String> category,
                               String employeeNationalId, String price){
 
         if(productRepository.existsProductByProductName(name)){
-            Product existingProduct = productRepository.findByProductName(name);
-            int currentQuantity = existingProduct.getProductCount();
-            int updatedQuantity = currentQuantity + productCount;
-            existingProduct.setProductCount(updatedQuantity);
-            return productRepository.save(existingProduct);
+          return increaseProductInventory(name, productQuantity);
         }else {
             System.out.println("sorry");
             Set<Category> categories = categoryRepository.findByCategoryNameIn(category);
             BigDecimal productPrice = new BigDecimal(price);
-            return productRepository.save(new Product(name, productCount, categories, employeeNationalId, UUID.randomUUID().toString(), productPrice));
+            return productRepository.save(new Product(name, productQuantity, categories, employeeNationalId,
+                    UUID.randomUUID().toString(), productPrice));
         }
+    }
+
+    public Product increaseProductInventory(String name, int productQuantity){
+        Product existingProduct = productRepository.findByProductName(name);
+        int currentQuantity = existingProduct.getProductQuantity();
+        int updatedQuantity = currentQuantity + productQuantity;
+        existingProduct.setProductQuantity(updatedQuantity);
+        return productRepository.save(existingProduct);
+    }
+
+    public Product decreaseProductInventory(String name, int productQuantity){
+        Product existingProduct = productRepository.findByProductName(name);
+        int updatedProductQuantity = existingProduct.getProductQuantity() - productQuantity;
+        existingProduct.setProductQuantity(updatedProductQuantity);
+        if(updatedProductQuantity == 0){
+            existingProduct.setActive(false);
+        }
+        return productRepository.save(existingProduct);
     }
 
     @Transactional
@@ -77,7 +92,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getProduct(String productId) {
         return productRepository.findByProductId(productId);
-
     }
 
     @Override

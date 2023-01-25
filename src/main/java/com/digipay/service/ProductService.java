@@ -15,4 +15,8 @@ public interface ProductService {
     Product getProduct(String productId);
 
     List<Product> getAllActiveProduct();
+
+    Product increaseProductInventory(String name, int productQuantity);
+
+    Product decreaseProductInventory(String name, int productQuantity);
 }

@@ -6,6 +6,7 @@ import com.digipay.model.dto.OrderItemDto;
 import com.digipay.model.dto.OrderItemRequest;
 import com.digipay.model.dto.OrderRequest;
 import com.digipay.model.dto.ProductDto;
+import com.digipay.model.entity.Product;
 import com.digipay.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

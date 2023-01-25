@@ -23,8 +23,11 @@ public class Payment {
 
     BigDecimal payableAmount;
 
+    BigDecimal payablePenalty;
+
     private Date paymentDate;
 
+    private Date penaltyPaymentDate;
 
     public Payment() {
     }
@@ -34,5 +37,12 @@ public class Payment {
         this.payableAmount = payableAmount;
         this.paymentDate = paymentDate;
         this.paymentId = paymentId;
+    }
+
+    public Payment(Order order, BigDecimal payablePenalty, Date penaltyPaymentDate){
+        this.order = order;
+        this.payablePenalty = payablePenalty;
+        this.penaltyPaymentDate = penaltyPaymentDate;
+
     }
 }

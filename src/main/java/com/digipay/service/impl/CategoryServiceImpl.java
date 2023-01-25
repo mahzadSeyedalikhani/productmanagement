@@ -5,6 +5,7 @@ import com.digipay.repository.CategoryRepository;
 import com.digipay.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -20,7 +21,8 @@ public class CategoryServiceImpl implements CategoryService {
     public Category addCategory(String categoryName, String parentCategory) {
         Category parent = null;
         if (parentCategory != null) {
-            parent = categoryRepository.findByCategoryName(parentCategory);
+            parent = categoryRepository.findCategoryByCategoryName(parentCategory);
+
         }
         return categoryRepository.save(new Category(categoryName, parent, UUID.randomUUID().toString()));
     }

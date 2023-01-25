@@ -50,7 +50,7 @@ public class ProductController {
     @PostMapping
     public void addProduct(@RequestBody ProductRequest productRequest) throws Exception {
         employeeAccessCheck(productRequest.getEmployeeNationalId(), "add");
-        productService.addProduct(productRequest.getName(), productRequest.getProductCount(), productRequest.getCategories(),
+        productService.addProduct(productRequest.getName(), productRequest.getProductQuantity(), productRequest.getCategories(),
                 productRequest.getEmployeeNationalId(), productRequest.getPrice());
     }
 
@@ -76,7 +76,7 @@ public class ProductController {
         mapProductToProductDto.setProductName(product.getProductName());
         mapProductToProductDto.setEmployeeNationalId(product.getEmployeeNationalId());
         mapProductToProductDto.setProductPrice(product.getProductPrice());
-        mapProductToProductDto.setProductCount(product.getProductCount());
+        mapProductToProductDto.setProductQuantity(product.getProductQuantity());
 
         Set<Category> categories = product.getCategories();
         Set<CategoryDto> categoryDtoSet = new HashSet<>();
@@ -103,7 +103,7 @@ public class ProductController {
             mapping.setProductName(product.getProductName());
             mapping.setEmployeeNationalId(product.getEmployeeNationalId());
             mapping.setProductPrice(product.getProductPrice());
-            mapping.setProductCount(product.getProductCount());
+            mapping.setProductQuantity(product.getProductQuantity());
 
             Set<Category> categories = product.getCategories();
             Set<CategoryDto> categoryDtoSet = new HashSet<>();

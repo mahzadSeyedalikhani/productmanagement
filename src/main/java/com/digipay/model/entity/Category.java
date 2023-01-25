@@ -26,8 +26,8 @@ public class Category {
     @JoinColumn(name= "parent_category")
     private Category parentCategory;
 
-    @Column(name = "active_status", columnDefinition = "boolean default true")
-    private boolean active;
+    @Column(name = "active_status")
+    private boolean active = true;
 
     public Category() {
 
@@ -37,7 +37,6 @@ public class Category {
         this.categoryName = categoryName;
         this.parentCategory = parentCategory;
         this.categoryId = categoryId;
-
     }
 
 

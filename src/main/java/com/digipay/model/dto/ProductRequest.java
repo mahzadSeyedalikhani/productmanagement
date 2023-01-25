@@ -11,7 +11,7 @@ import java.util.Set;
 public class ProductRequest {
 
     private String name;
-    private int productCount;
+    private int productQuantity;
     private Set<String> categories;
     private String employeeNationalId;
     private String price;

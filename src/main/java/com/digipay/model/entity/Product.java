@@ -23,8 +23,8 @@ public class Product {
     @Column(name= "product_name")
     private String productName;
 
-    @Column(name = "product_count")
-    private int productCount;
+    @Column(name = "product_Quantity")
+    private int productQuantity;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "PRODUCT_CATEGORY", joinColumns ={@JoinColumn(name = "product_id")},
@@ -43,10 +43,10 @@ public class Product {
     public Product() {
     }
 
-    public Product(String productName, int productCount, Set<Category> categories, String employeeNationalId,
+    public Product(String productName, int productQuantity, Set<Category> categories, String employeeNationalId,
                    String productId, BigDecimal productPrice, boolean active){
         this.productName = productName;
-        this.productCount = productCount;
+        this.productQuantity = productQuantity;
         this.categories = categories;
         this.employeeNationalId = employeeNationalId;
         this.productId = productId;
@@ -54,10 +54,10 @@ public class Product {
         this.active = active;
     }
 
-    public Product(String productName, int productCount, Set<Category> categories, String employeeNationalId,
-                   String productId,  BigDecimal productPrice){
+    public Product(String productName, int productQuantity, Set<Category> categories, String employeeNationalId,
+                   String productId, BigDecimal productPrice){
         this.productName = productName;
-        this.productCount = productCount;
+        this.productQuantity = productQuantity;
         this.categories = categories;
         this.employeeNationalId = employeeNationalId;
         this.productId = productId;

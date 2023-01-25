@@ -15,7 +15,7 @@ public class ProductDto {
 
     private String productName;
 
-    private int productCount;
+    private int productQuantity;
 
     private Set<CategoryDto> categories;
 
